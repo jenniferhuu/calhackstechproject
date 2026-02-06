@@ -79,10 +79,11 @@ export default function Home() {
     if (step === steps.length - 1) {
       setRoutine(generateRoutine(answers));
       confetti({
-        particleCount: 180,
-        spread: 200,
-        origin: { y: 0.4 },
-        colors: ["#F43F5E", "#FB7185", "#FBCFE8", "#F472B6"]
+        particleCount: 300,
+        spread: 120,
+        origin: { x: 0.5, y: 0.5 },
+        colors: ["#F43F5E", "#FB7185", "#FBCFE8", "#F472B6"],
+        scalar: 1.5
       });
     } else {
       setStep(step + 1);
@@ -93,6 +94,18 @@ export default function Home() {
     if (step > 0) {
       setStep(step - 1);
     }
+  }
+
+  function restartQuiz() {
+    setStep(0);
+    setAnswers({
+      skinType: "",
+      concerns: [],
+      sensitivities: [],
+      climate: "",
+    });
+    setRoutine(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   if (routine) {
@@ -106,6 +119,12 @@ export default function Home() {
           <Routine title="AM Routine" steps={routine.am} />
           <Routine title="PM Routine" steps={routine.pm} />
         </div>
+        <button
+          onClick={restartQuiz}
+          className="mt-8 w-full bg-rose-500 text-white py-3 rounded-xl hover:bg-rose-600 transition"
+        >
+          Restart Quiz
+        </button>
       </main>
     );
   }
@@ -128,7 +147,6 @@ export default function Home() {
         <div className="grid grid-cols-2 gap-3">
           {current.options.map(function (opt) {
             var selected = current.multiple ? answers[current.key].indexOf(opt) !== -1 : answers[current.key] === opt;
-
             return (
               <button
                 key={opt}
@@ -143,13 +161,11 @@ export default function Home() {
             );
           })}
         </div>
-
         {step > 0 && (
           <button onClick={prev} className="mt-4 text-sm underline text-rose-600 hover:text-rose-800">
             Back
           </button>
         )}
-
         <button onClick={next} className="mt-8 w-full bg-black text-white py-3 rounded-xl hover:opacity-90 transition">
           {step === steps.length - 1 ? "Generate My Routine" : "Continue"}
         </button>
