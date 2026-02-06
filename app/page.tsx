@@ -1,4 +1,3 @@
-// Complete `page.tsx` rewritten with Back button and Confetti effect
 "use client";
 import { useState, useEffect } from "react";
 import { generateRoutine } from "../utils/generateRoutine";
