@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { generateRoutine } from "../utils/generateRoutine";
+import confetti from "canvas-confetti";
 
 export default function Home() {
   var stateStep = useState(0);
@@ -50,7 +51,6 @@ export default function Home() {
       setAnswers(function (prev) {
         var updated = Object.assign({}, prev);
         var values = prev[current.key];
-
         if (values.indexOf(option) !== -1) {
           updated[current.key] = values.filter(function (v) {
             return v !== option;
@@ -72,6 +72,11 @@ export default function Home() {
   function next() {
     if (step === steps.length - 1) {
       setRoutine(generateRoutine(answers));
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#F43F5E", "#FB7185", "#FBCFE8", "#F472B6"]});
     } else {
       setStep(step + 1);
     }
